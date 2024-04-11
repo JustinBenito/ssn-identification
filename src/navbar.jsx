@@ -11,8 +11,20 @@ const Navbar = () => {
         <span class="self-center text-white text-2xl font-semibold whitespace-nowrap dark:text-white">Speech Lab</span>
     </a>
 
-    <div class="w-auto">
-      <h1 className='font-bold text-center text-white text-3xl mt-4 md:mt-0 md:text-2xl'>Identification of Dsyarthritic speakers</h1>
+    <div class="w-auto flex md:flex-row flex-col">
+      <h1 className='font-bold text-center text-white text-3xl flex md:text-2xl justify-center items-center'>Dysarthric Severity Assesment Tool</h1>
+
+      <ul class="font-medium gap-4 ml-4 text-white flex flex-row text-center justify-center items-center">
+        <li>
+          <a href="#" class="block py-2 px-3 text-white underline">About</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 px-3 text-white underline">Steps</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 px-3 text-white underline">Contact Us</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
