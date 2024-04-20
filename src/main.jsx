@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import './index.css'
 import Navbar from './navbar.jsx'
 import Sidebar from './sidebar.jsx'
+import LineChart from './charts.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
