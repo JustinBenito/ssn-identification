@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { AudioRecorder } from 'react-audio-voice-recorder';
 import { AudioVisualizer } from 'react-audio-visualize';
 import { useEffect } from "react";
+import { convertToWav } from "./utils/audioFunction";
 import { useVoiceVisualizer, VoiceVisualizer } from "react-voice-visualizer";
 import axios, { formToJSON } from 'axios'
 import Charts from './charts';
@@ -30,6 +31,7 @@ ChartJS.register(
 
 const Sidebar = () => {
    const visualizerRef = useRef(null);
+   const [record_or_file, setRecordFile]=useState('record')
    const [audioBlob, setAudioBlob] = useState(null);
    const [recordedaudioBlob, setrecordedAudioBlob]=useState(null)
    const [predicted, setPredicted]=useState(null)
@@ -113,24 +115,36 @@ const Sidebar = () => {
    }
 
    const stopRecording = async () => {
+      setRecordFile('record')
       console.log("Recording Stopped")
       const formData = new FormData();
+      const wavBlob = await convertToWav(recordedBlob);
 
-
-      if(recordedaudioBlob){
-      console.log("Here it is",typeof recordedaudioBlob);
-      formData.append('file', recordedaudioBlob,'recorded_audio1.wav');
+      if(wavBlob){
+      console.log("Here it is",typeof wavBlob);
+      formData.append('file', wavBlob,'recorded_audio1.wav');
       console.log(formData)
       try{
 
          const response = await axios.post('http://127.0.0.1:8000/analyse', formData, {
-           headers: {
-             'Content-Type': 'multipart/form-data',
-           },
-         });
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+ 
+          console.log(response.data.message)
+          setPredicted(response.data.message)
 
-         console.log(response)
-         setPredicted(response.data.message)
+          const features = await axios.post('http://127.0.0.1:8000/extract', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+ 
+         //  console.log("features",features.data.features)
+         setFeature(JSON.parse(JSON.stringify(features.data.features)))
+         setEnergy(features.data.features.energy_plot)
+         setPitch(features.data.features.pitch_plot)
       }
       catch(e){
          console.log(e)
@@ -176,6 +190,7 @@ const Sidebar = () => {
     const handleFile = async (event) => {
       const file = event.target.files[0];
       if (file) {
+         setRecordFile('file')
          const reader = new FileReader();
          reader.onload = () => {
            const blob = new Blob([reader.result], { type: file.type });
@@ -333,7 +348,7 @@ const Sidebar = () => {
 
       </div>
       <div class="flex items-center overflow-x-auto scroll-smooth justify-center h-64 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-         {feature && 
+         {record_or_file=='file' && 
          <div className="overflow-scroll flex flex-col gap-x-4">
             <h1 className='font-medium text-xl text-center'>Audio Waveform</h1>
          <AudioVisualizer
@@ -345,7 +360,7 @@ const Sidebar = () => {
           gap={0}
           barColor={'#f76565'}
         /></div>}
-{!feature && <div className="overflow-x-auto w-full">
+{record_or_file=='record' && <div className="overflow-x-auto w-full">
   <VoiceVisualizer
     ref={audioRef}
     controls={recorderControls}
