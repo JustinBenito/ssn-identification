@@ -88,6 +88,8 @@ export function calculateDecibel(blob, setDb) {
 
       const db = 20 * Math.log10(rms / ref);
       setDb(db);
+      console.log("DB is: ", db)
+      
     });
   };
 
