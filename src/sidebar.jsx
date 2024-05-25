@@ -590,7 +590,7 @@ if(data && pitch && sounds){
               </div>
             </div>
 
-            <div class="flex items-center justify-center h-full pt-8 pb-8 mb-4 rounded bg-gray-50 dark:bg-gray-800">
+            {/* <div class="flex items-center justify-center h-full pt-8 pb-8 mb-4 rounded bg-gray-50 dark:bg-gray-800">
               {feature ? (
                 <div class="relative overflow-x-auto w-full  flex justify-center flex-col items-center">
                   <table class=" flex justify-center  flex-col items-center text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
@@ -700,9 +700,9 @@ if(data && pitch && sounds){
                   <span class="sr-only">Loading...</span>
                 </div>
               )}{" "}
-            </div>
+            </div> */}
 
-
+{/* 
             <div class="grid grid-cols-4 gap-4 mb-4 rounded-lg">
               <div
                 className={`flex items-center justify-center ${
@@ -772,7 +772,7 @@ if(data && pitch && sounds){
                   Severe
                 </p>
               </div>
-            </div>
+            </div> */}
 
           
             {/* This is where the chart starts */}
