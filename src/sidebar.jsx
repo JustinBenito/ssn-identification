@@ -69,8 +69,10 @@ if(data && pitch && sounds){
         backgroundColor: "#0096c7",
         borderColor: "#0096c7",
         tension: 0.1,
+        spanGaps: true
       },
     ],
+    
   };
 
   sound_data = {
@@ -104,6 +106,7 @@ if(data && pitch && sounds){
       legend: {
         position: "top",
       },
+      
       title: {
         display: true,
         text: "Energy Plot",
@@ -140,9 +143,50 @@ if(data && pitch && sounds){
       delay: 500, // Delay before animation starts in milliseconds
       easing: "easeInOutQuart", // Easing function for smooth animation
     },
+    onAnimationComplete: function () {
+      // prevents the update from triggering an infinite loop
+      if (!this.clearCycle) {
+          this.clearCycle = true;
 
+          this.datasets.forEach(function (dataset) {
+              dataset.points.forEach(function (point) {
+                  if (point.value === 0) {
+                      point.display = false;
+                      point.hasValue = function () {
+                          return false;
+                      }
+                  }
+              })
+          })
+
+          this.update();
+      }
+      else
+          delete this.clearCycle;
+  },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+    skipZero: true, 
+    
     responsive: true,
     plugins: {
+      tooltip:{
+        usePointStyle: true,
+        callbacks: {
+          filter: (label) => {
+            if (typeof (label.raw) === "number")
+              return label.raw > 0
+            else return true
+          }
+      }
+      },
       legend: {
         position: "top",
       },
@@ -516,7 +560,7 @@ if(data && pitch && sounds){
                     <div
                       className={`flex items-center justify-center rounded bg-gray-50 h-64 dark:bg-gray-800`}
                     >
-                      <Scatter options={pitch_options} data={pitch_data} />
+                      <Line options={pitch_options} data={pitch_data} />
                     </div>
                   </div>
                 ) : (
