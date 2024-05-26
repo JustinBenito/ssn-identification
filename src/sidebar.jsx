@@ -547,7 +547,7 @@ if(data && pitch && sounds){
                 </div>
             </div>
 
-            <div className=" ">
+            <div className=" overflow-x-auto w-full">
               <div class="grid grid-cols-1 gap-4 mb-4 rounded-lg">
                 {energy ? (
                   // <div className='flex grid-row-2 gap-4'>
