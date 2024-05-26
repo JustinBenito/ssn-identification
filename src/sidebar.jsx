@@ -500,7 +500,7 @@ if(data && pitch && sounds){
                 </div>
               </div>
             </div>
-            {/* <div class="flex items-center overflow-x-auto scroll-smooth justify-center h-64 mb-4 rounded bg-gray-50 dark:bg-gray-800"> */}
+            <div class="flex items-center overflow-x-auto scroll-smooth justify-center h-64 mb-4 rounded bg-gray-50 dark:bg-gray-800">
               {/* {record_or_file == "file" && (
                 <div className="overflow-scroll flex flex-col gap-x-4">
                   <h1 className="font-medium text-xl text-center">
@@ -531,8 +531,21 @@ if(data && pitch && sounds){
                     clearCanvas={handleClear}
                   />
                 </div>
-              )}
-            </div> */}
+              )} */}
+              <div className="overflow-x-auto w-full">
+                  <VoiceVisualizer
+                    ref={audioRef}
+                    controls={recorderControls}
+                    height={50}
+                    width={wid - 250}
+                    mainBarColor="#000000"
+                    onStopRecording={stopRecording}
+                    onEndAudioPlayback={handleClear}
+                    onClearCanvas={handleClear}
+                    clearCanvas={handleClear}
+                  />
+                </div>
+            </div>
 
             <div className=" ">
               <div class="grid grid-cols-1 gap-4 mb-4 rounded-lg">
